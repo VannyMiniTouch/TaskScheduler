@@ -1,0 +1,25 @@
+# springapplication.name=respApisCleint
+springapplication:
+    name: CronJob
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/scheduler_db
+    username: root
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none #update  # or `create`, `create-drop`, `validate`, `none`
+    show-sql: true
+
+
+scheduled:
+  task:
+    everySecond: "0 0 15 * * *"      # Executes at 3:00 PM
+    threePm: "0 0 15 * * ?"      # Executes at 3:00 PM
+    threeThirtyPm: "0 30 15 * * ?" # Executes at 3:30 PM
+    fourPm: "0 0 16 * * ?"        # Executes at 4:00 PM
+    fourThirtyPm: "0 30 16 * * ?"  # Executes at 4:30 PM
+    fivePm: "0 0 17 * * ?"        # Executes at 5:00 PM
