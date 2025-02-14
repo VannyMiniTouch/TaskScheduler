@@ -1,6 +1,8 @@
 package Acleda.com.kh.CronJob.TaskScheduler.entity;
 
-import java.security.Timestamp;
+
+
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,10 @@ public class TaskSchedulerEntity {
 
     @Column(name = "INPUTTER")
     private String inputter;
+
+    public TaskSchedulerEntity(){
+        this.inputDate = new Timestamp(System.currentTimeMillis());
+    }
 
 }
 
