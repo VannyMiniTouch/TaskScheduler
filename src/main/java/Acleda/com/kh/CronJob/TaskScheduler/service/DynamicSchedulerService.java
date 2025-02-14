@@ -5,6 +5,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import Acleda.com.kh.CronJob.SampleService1.Service1;
+import Acleda.com.kh.CronJob.SampleService2.Service2;
 import Acleda.com.kh.CronJob.TaskScheduler.entity.TaskSchedulerEntity;
 import Acleda.com.kh.CronJob.TaskScheduler.repository.TaskSchedulerRepository;
 import jakarta.annotation.PostConstruct;
@@ -23,8 +25,11 @@ public class DynamicSchedulerService {
     private ThreadPoolTaskScheduler taskScheduler;
 
     private final TaskSchedulerRepository taskSchedulerRepository;
-
     private final Map<Long, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
+
+    private final Service1 service1;
+    private final Service2 service2;
+
 
     @PostConstruct
     public void init() {
@@ -36,7 +41,8 @@ public class DynamicSchedulerService {
 
     public void scheduleTask(TaskSchedulerEntity taskSchedulerEntity) {
         ScheduledFuture<?> future = taskScheduler.schedule(
-                () -> executeTask(taskSchedulerEntity.getId()),
+                // () -> executeTask(taskSchedulerEntity.getId()),
+                () -> executeTask(taskSchedulerEntity.getTaskName()),
                 new CronTrigger(taskSchedulerEntity.getCronExpression())
         );
         scheduledTasks.put(taskSchedulerEntity.getId(), future);
@@ -69,8 +75,20 @@ public class DynamicSchedulerService {
         }
     }
 
-    private void executeTask(Long taskId) {
-        System.out.println("Executing task: " + taskId);
+    private void executeTask(String taskName) {
+        System.out.println("Executing task: " + taskName);
         ///Call service
+        switch (taskName) {
+            case "task1":
+            this.service1.Testing1();
+            break;
+
+            case "task2":
+                this.service2.run();
+                break;
+        
+            default:
+                break;
+        }
     }
 }
